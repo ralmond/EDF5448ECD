@@ -1,0 +1,4 @@
+Gender	i2	i1	name	period
+M	1	2	student1	1
+F	1	0	student2	1
+F	0	1	student3	1

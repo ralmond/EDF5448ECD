@@ -1,0 +1,84 @@
+---
+title: "Kappa Lambda Homework"
+format: docx
+---
+
+## Language Test
+
+This is roughly based on hypothetical [Language Test](reading/Mislevy1995Lanugage.pdf) that Bob Mislevy wrote about.
+
+The test measures Reading, Writing, Speaking and Listening and reports scores for each.
+
+The test had the following design:
+
+-   Task A (*Reading Task* x5) -- an extended reading task with partial credit scoring available.
+-   Task B (Reading/*Writing* Task x3) -- this involves reading a complex passage and producing a short written response.
+-   Task C (Reading/Listening/*Speaking* Task x3) -- the student listens to a taped conversation with a transcript provided, and is asked to produce a spoken response. Note that either Reading or Listening skills can be used to extract the needed information.
+-   Task D (*Listening* Task x 5) -- this task asks the student to listen to a taped conversation and indicate by raising his or her hand when the business is complete.
+
+I build a [Bayesian network model](readings/kappa-lambda.pdf) for these data and simulated data from it, and then estimated the student's abilities (Advanced, Intermediate, Novice).
+
+## The psych package has functions for kappa
+
+```{r}
+if (length(find.package("CPTtools",quiet=TRUE))==0L)
+  install.packages("CPTtools",repos=c(CRAN="https://cloud.r-project.org",
+                                      ralmond="https://ralmond.r-universe.dev"))
+library(CPTtools)
+```
+
+```{r}
+library(psych)
+```
+
+## Example data
+
+```{r}
+read <- matrix(c(0.207,0.029,0,0.04,0.445,0.025,0,0.025,0.229),3,3,
+        dimnames=list(estimated=c("Advanced","Intermediate","Novice"),
+                      actual=c("Advanced","Intermediate","Novice")))
+read
+```
+
+```{r}
+accuracy(read)
+```
+
+```{r}
+fcKappa(read)
+```
+
+```{r}
+gkLambda(read)
+```
+
+```{r}
+cohen.kappa(read*1000)
+```
+
+```{r}
+accuracy(read,weights = "Linear")
+fcKappa(read,weights="Linear")
+gkLambda(read,weights="Linear")
+```
+
+```{r}
+write <- matrix(c(0.163,0.053,0,0.097,0.338,0.051,0,0.065,0.183),3,3,
+        dimnames=list(estimated=c("Advanced","Intermediate","Novice"),
+                      actual=c("Advanced","Intermediate","Novice")))
+write
+```
+
+```{r}
+accuracy(write)
+fcKappa(write)
+gkLambda(write)
+```
+```{r}
+speak <- matrix(c(0.243,0.044,0,0.027,0.39,0.033,0,0.03,0.233),3,3,
+        dimnames=list(estimated=c("Advanced","Intermediate","Novice"),
+                      actual=c("Advanced","Intermediate","Novice")))
+listen <- matrix(c(0.242,0.054,0,0.054,0.29,0.087,0,0.059,0.214),3,3,
+        dimnames=list(estimated=c("Advanced","Intermediate","Novice"),
+                      actual=c("Advanced","Intermediate","Novice")))
+```

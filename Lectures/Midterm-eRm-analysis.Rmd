@@ -1,0 +1,103 @@
+---
+title: "Midterm eRm analysis"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(eRm)
+```
+
+## Load the Data
+```{r download and clean}
+midterm <- read.csv("https://pluto.coe.fsu.edu/svn/common/rgroup-shiny/ScaleAndInstrument/Midterm-Fall2011.download.csv",
+                     header=TRUE)
+#midterm <- read.csv(file.choose(),header=TRUE)
+
+midterm.scores <- data.frame(row.names=midterm$ID,
+                             Q01=midterm$Auto.Score.1,
+                             Q02=midterm$Auto.Score.2,
+                             Q03=midterm$Auto.Score.3,
+                             Q04=midterm$Auto.Score.4,
+                             Q05=midterm$Auto.Score.5,
+                             Q06=ifelse(!is.na(midterm$Manual.Score.6),midterm$Manual.Score.6,midterm$Auto.Score.6),
+                             Q07=ifelse(!is.na(midterm$Manual.Score.7),midterm$Manual.Score.7,midterm$Auto.Score.7),
+                             Q08=midterm$Auto.Score.8,
+                             Q09=midterm$Auto.Score.9,
+                             Q10=ifelse(!is.na(midterm$Manual.Score.10),midterm$Manual.Score.10,midterm$Auto.Score.10),
+                             Q11=midterm$Auto.Score.11,
+                             Q12=ifelse(!is.na(midterm$Manual.Score.12),midterm$Manual.Score.12,midterm$Auto.Score.12),
+                             Q13=ifelse(!is.na(midterm$Manual.Score.13),midterm$Manual.Score.13,midterm$Auto.Score.13),
+                             Q14=midterm$Auto.Score.14,
+                             Q15=midterm$Auto.Score.15,
+                             Q16=midterm$Auto.Score.16,
+                             Q17=midterm$Auto.Score.17,
+                             Q18=midterm$Auto.Score.18,
+                             Q19=ifelse(!is.na(midterm$Manual.Score.19),midterm$Manual.Score.19,midterm$Auto.Score.19),
+                             Q20=midterm$Auto.Score.20,
+                             Q21=midterm$Auto.Score.21,
+                             Q22=midterm$Auto.Score.22,
+                             Q23=midterm$Auto.Score.23,
+                             Q24=midterm$Auto.Score.24,
+                             Q25=midterm$Auto.Score.25,
+                             Q26=midterm$Auto.Score.26,
+                             Q27=midterm$Auto.Score.27,
+                             Q28=midterm$Manual.Score.28,
+                             Q29=ifelse(!is.na(midterm$Manual.Score.29),midterm$Manual.Score.29,midterm$Auto.Score.29),
+                             Q30=ifelse(!is.na(midterm$Manual.Score.30),midterm$Manual.Score.30,midterm$Auto.Score.30),
+                             Q31=midterm$Auto.Score.31,
+                             Q32=midterm$Manual.Score.32,
+                             Q33=ifelse(!is.na(midterm$Manual.Score.33),midterm$Manual.Score.33,midterm$Auto.Score.33),
+                             Q34=midterm$Manual.Score.34,
+                             Q35=midterm$Manual.Score.35,
+                             Q36=ifelse(!is.na(midterm$Manual.Score.36),midterm$Manual.Score.36,midterm$Auto.Score.36),
+                             Q37=midterm$Auto.Score.37,
+                             Q38=ifelse(!is.na(midterm$Manual.Score.38),midterm$Manual.Score.38,midterm$Auto.Score.38),
+                             Q39=midterm$Manual.Score.39)
+
+midterm.points <- midterm[,paste("Possible.Points",1:39,sep=".")]
+ 
+sections <- read.table("https://pluto.coe.fsu.edu/svn/common/rgroup-shiny/ScaleAndInstrument/Midterm-Fall2011.sections.txt",header=TRUE,sep="\t",row.names=1)
+
+#sections <- read.table(file.choose(),header=TRUE,sep="\t",row.names=1)
+midterm <- data.frame(midterm,section=sections[midterm$ID,1])
+
+
+```
+
+## Raw Script
+
+```{r dumped}
+## convert to factors
+midterm.factscores <- as.data.frame(
+  lapply(midterm.scores,as.factor),
+  row.names=row.names(midterm.scores))
+midterm.pcscore <- as.data.frame(
+  lapply(midterm.factscores,as.numeric),
+  row.names=row.names(midterm.scores))
+midterm.pcscore <- midterm.pcscore -1
+
+## Attempt 1:  Fit a partial credit model
+midterm.pcm <- PCM(midterm.pcscore)
+midterm.ppar <- person.parameter(midterm.pcm)
+plot(midterm.ppar)
+
+## Look at item difficulties
+coef(midterm.pcm)
+
+## Look at the Wright Map
+plotPImap2(midterm.pcm)
+
+## Look at Test CC
+plotINFO(midterm.pcm)
+
+## Look at Item fit statistics
+plotPWmap(midterm.pcm)
+itemfit(midterm.ppar)
+
+## extract theta scores for individuals
+midterm.ppar$theta.table
+
+kidmap(midterm.pcm,31)
+```

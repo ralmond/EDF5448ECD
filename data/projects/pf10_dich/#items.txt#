@@ -1,0 +1,12 @@
+s	-5.0	5.0	-5.0	5.0	20	d
+v	"pf"	"Physical Functioning"	1.0	0.0	1.0	""	""	""	""
+i	base	"pf"	"VigAct"	"Vigorous Activities"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"ModAct"	"Moderate Activities"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"Lift"	"Lift/Carry"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"SevStair"	"Several Stairs"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"OneStair"	"One Flight Stairs"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"Bend"	"Bend/Kneel/Stoop"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"WalkMile"	"Walk More Mile"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"WalkBlks"	"Walk Several Blocks"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"WalkOne"	"Walk One Block"	""	""	"4/30/03"	""	1.0
+i	base	"pf"	"Bath"	"Bathing/Dressing"	""	""	"4/30/03"	""	1.0

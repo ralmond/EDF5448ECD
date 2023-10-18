@@ -1,0 +1,17 @@
+1/25/2005					
+Name	Class	Comments	Gender	base:i1	base:i2
+<DEMOGRAPHICS>					
+Name		TRUE	TRUE		
+Class		TRUE	TRUE		
+Comments		TRUE	TRUE		
+Gender	M	TRUE	TRUE	M	F
+</DEMOGRAPHICS>					
+<ANSWERKEY>					
+2				2	.
+0				0	0
+.				.	.
+1				1	1
+</ANSWERKEY>					
+student1	1		M	2	1
+student2	1		F	0	1
+student3	1		F	1	0
